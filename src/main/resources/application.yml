@@ -1,0 +1,49 @@
+server:
+  port: 8081
+
+storm:
+  args: printkafka,kafkainsert
+spring:
+  datasource:
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://47.104.183.219:3306/noboring
+      username: huihaoyu
+      password: miao!#952065382hhy
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+      host: 127.0.0.1
+      port: 6379
+      jedis:
+         pool:
+           max-active: 8
+           min-idle: 0
+           max-idle: 8
+           max-wait: -1ms
+         timeout: 2000ms
+  kafka:
+  # 指定kafka 代理地址，可以多个
+    bootstrap-servers: 121.43.176.216:9092
+    #=============== provider  =======================
+    producer:
+      # 每次批量发送消息的数量
+      batch-size: 16384
+      buffer-memory: 33554432
+      # 指定消息key和消息体的编解码方式
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    #=============== consumer  =======================
+    consumer:
+      group-id: springboot-kafka-storm
+      enable-auto-commit: false
+#      auto-commit-interval: 1000
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+#注意mybatis的配置
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.example.dmy.kafkastorm.domain
+#日志配置
+logging:
+  path: logback.xml
+
